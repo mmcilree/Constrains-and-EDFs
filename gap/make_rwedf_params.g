@@ -68,7 +68,7 @@ buildAllRWEDFParams := function(G)
         # Print("weights = ", weights);
 		sizesstr := String(o.setsizes);
 		RemoveCharacters(sizesstr, " ");
-        filename := StringFormatted("allrwedfs/rwedf_{}_{}_{}_{}_{}.param", g.size, g.id, o.numsets, sizesstr, lambda);
+        filename := StringFormatted("params/rwedf_{}_{}_{}_{}_{}.param", g.size, g.id, o.numsets, sizesstr, lambda);
         # Print(filename, "\n");
         outputEssenceFile(filename, g.elements, g.tables, o.setsizes, o.numsets, lambda, weights);
     od;

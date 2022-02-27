@@ -3,11 +3,11 @@ import json
 import math
 from os import listdir, system, SEEK_END
 
-PARAM_PATH = "../gap/allrwedfs"
-CONJURE_OUTPUT_PATH = "../conjure-output"
-JSON_FILE_OUTPUT = "../known_osedfs.json"
-ESSENCE_FILE = "../essence/edfimagefromimage.essence"
-
+PARAM_PATH = "./gap/params"
+CONJURE_OUTPUT_PATH = "./conjure-output"
+# This is modified if certain arguments are passed.
+ESSENCE_FILE = "./essence/edf.essence"
+TIMEOUT = "30s"
 
 def lcm(a):
     lcm = a[0]
@@ -21,16 +21,16 @@ def all_models():
     for f in files:
         if f.endswith(".param"):
             system(
-                "timeout 30s conjure solve {0} {1}/{2} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-                    ESSENCE_FILE, PARAM_PATH, f
+                "timeout {0} conjure solve {1} {2}/{3} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
+                    TIMEOUT, ESSENCE_FILE, PARAM_PATH, f
                 )
             )
 
 
 def one_model(modelpath):
     system(
-        "conjure solve {0} {1} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-            ESSENCE_FILE, modelpath
+        "timeout {0} conjure solve {1} {2} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
+            TIMEOUT, ESSENCE_FILE, modelpath
         )
     )
 

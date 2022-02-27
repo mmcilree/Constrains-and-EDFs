@@ -7,7 +7,7 @@ $ Number of sets
 given setnum: int(1..n)
 
 $ Size of each set
-given setsizes: matrix indexed [int(1..setnum)] of int(1..n)
+given setsizes: matrix indexed by [int(1..setnum)] of int(1..n)
 
 $ Size of largest set
 given maxsetsize: int(1..n)
@@ -61,7 +61,7 @@ forAll p1 : int(1..setnum). forAll q1 : int(1..setnum).
 $ Set the corresponding stub values in the edfmap
 forAll p1 : int(1..setnum). forAll q1 : int(1..setnum).
 (
-    (forAll p2 : int((setsizes[p1]+1)..maxsetsize). forAll q2 : int((setsizes[q1])..maxsetsize).
+    (forAll p2 : int((setsizes[p1]+1)..maxsetsize). forAll q2 : int((setsizes[q1]+1)..maxsetsize).
         edfmap[p1,p2,q1,q2] = 0
     )
 ),
@@ -79,8 +79,9 @@ forAll p1 : int(1..setnum). forAll v : int(1..n).
     )
 ),
 
+
 $ Require uniformity
-forAll v : int(1..n).
+forAll v : int(2..n).
 (
     sum([weights[p1]*weightcount[p1, v] | p1 : int(1..setnum)]) = dups
 )
