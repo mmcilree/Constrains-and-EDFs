@@ -14,6 +14,7 @@ class SetFamily:
         self.elstr = elstr
 
     def sets_str(self):
+        """Return the sets in the family in latex format."""
         latex_str = ""
         for j, s in enumerate(self.sets):
             latex_str += "\{"
@@ -25,6 +26,10 @@ class SetFamily:
         return latex_str
 
     def op_as_str(self):
+        """
+            Return the difference operation of the group (multiply by inverse 
+            by default) as a string.
+        """
         return R"\times (\;\cdot\;)^{-1}"
 
     def get_inverses(self):
