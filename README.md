@@ -29,3 +29,12 @@ cd ..
 ```
 python3 python/runsearch.py --allmodels --rwedf
 ```
+4. Collect the results into a JSON file
+```
+python3 python/runsearch.py --rwedf --cleanoutput found_rwedfs.json
+```
+
+5. (Optionally) run another script to convert the JSON file into a LaTeX table
+```
+python3 python/scripts/print_rwedfs.py > rwedftable.tex
+```

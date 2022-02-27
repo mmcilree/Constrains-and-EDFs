@@ -80,13 +80,14 @@ def get_obj(n, i, sets):
     return rwedf
 
 
-rwedffile = open("./rwedfsupto10.json", "r+")
+rwedffile = open("found_rwedfs.json", "r+")
 
 rwedfjson = json.load(rwedffile)
 
 rwedfjson = sorted(rwedfjson, key=itemgetter("group", "numsets", "setsize"))
 
-
+print(R"\begin{array}{|c|c|c|c|c|c|c}")
+print(R"\hline")
 for item in rwedfjson:
     n = item["group"][0]
     n_id = item["group"][1]
@@ -111,7 +112,7 @@ for item in rwedfjson:
     print("{0} & {1} & {2} & {3} & {4} & {5}& {6} & {7}\\\\ \hline"
             .format(
                 group, 
-                rwedf.latex_str(),
+                rwedf.sets_str(),
                 n,
                 rwedf.m,
                 ks,
@@ -120,5 +121,6 @@ for item in rwedfjson:
                 str(rwedf.is_pedf())
 
                 ))
+print(R"\end{array}")
 
     

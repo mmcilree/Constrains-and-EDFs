@@ -7,7 +7,7 @@ PARAM_PATH = "./gap/params"
 CONJURE_OUTPUT_PATH = "./conjure-output"
 # This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"
-TIMEOUT = "30s"
+TIMEOUT = "10m"
 
 def lcm(a):
     lcm = a[0]

@@ -228,7 +228,7 @@ class SetFamily:
                 tables_str += R"\end{array}" + "\n\n"
         return tables_str
 
-    def get_counts_from_set_str(self, i):
+    def get_counts_from_set(self, i):
         """
             Count the number of times each non-zero elements occurs as an external
             difference starting from the ith set.

@@ -1,0 +1,7 @@
+Generating models for essence/wedf.essence
+Generated models: model.eprime
+Saved under: conjure-output
+Savile Row: model.eprime ./gap/params/rwedf_10_1_3_[4,4,1]_72.param
+Running minion for domain filtering.
+Running solver: minion
+No solutions found.
