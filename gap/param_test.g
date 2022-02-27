@@ -6,6 +6,7 @@ test_output := function()
 	SetPrintFormattingStatus(output, false);
 	PrintToFormatted(output, "Hello!\n");
 end;
+
 find_cyclic_25 := function()
     local G, Ns, N, hom, H;
     G := SmallGroup(25, 2);

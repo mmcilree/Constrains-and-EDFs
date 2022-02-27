@@ -1,6 +1,9 @@
 LoadPackage("json");
 LoadPackage("images");
 
+# These utility functions were provided by Dr Chris Jefferson
+
+
 # Generate the elements of 'g' with a "nice"
 # ordering:
 # * Cyclic groups are ordered in the "natural" way
