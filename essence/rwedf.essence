@@ -50,10 +50,10 @@ $ No value is repreated in any set of the EDF (except the 0 stub values for sets
 allDiff([x | x <- flatten(edf), x != 0]),
 
 $ Order the lists in 'edf', as they should be sorted
-forAll i : int(1..setnum). forAll j : int(1..setsize-1). edf[i,j] < edf[i,j+1],
+forAll i : int(1..setnum). forAll j : int(1..setsizes[i]-1). edf[i,j] < edf[i,j+1],
 
-$ If two sets are the same size, then lexigraphically order them.
-forAll i : int(1..setnum-1). setsizes[i] != setsizes[i+1] \/ edf[i, _] < edf[i+1, _)
+$ If two sets are the same size, then lexicographically order them.
+forAll i : int(1..setnum-1). (setsizes[i] != setsizes[i+1] \/ edf[i] <lex edf[i+1]),
 
 $ Now set up the 'edfmap', this makes a variable 'edfmap[p1,p2,q1,q2]'
 $ which is equal to x*y^-1, where x is the p2th element of the p1st set
