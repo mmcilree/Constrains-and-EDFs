@@ -1,3 +1,4 @@
+
 language ESSENCE' 1.0
 
 $ Size of group
@@ -48,6 +49,12 @@ forAll i : int(1..setnum). forAll j : int(1..(setsizes[i])). edf[i,j] != 0,
 $ No value is repreated in any set of the EDF (except the 0 stub values for sets of different size)
 allDiff([x | x <- flatten(edf), x != 0]),
 
+$ Order the lists in 'edf', as they should be sorted
+forAll i : int(1..setnum). forAll j : int(1..setsize-1). edf[i,j] < edf[i,j+1],
+
+$ If two sets are the same size, then lexigraphically order them.
+forAll i : int(1..setnum-1). setsizes[i] != setsizes[i+1] \/ edf[i, _] < edf[i+1, _)
+
 $ Now set up the 'edfmap', this makes a variable 'edfmap[p1,p2,q1,q2]'
 $ which is equal to x*y^-1, where x is the p2th element of the p1st set
 $ and y is the q2th element of the q1th set
@@ -78,7 +85,6 @@ forAll p1 : int(1..setnum). forAll v : int(1..n).
         ]
     )
 ),
-
 
 $ Require uniformity
 forAll v : int(2..n).
