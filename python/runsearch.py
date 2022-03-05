@@ -115,7 +115,7 @@ if args.fromimage:
 elif args.makeimage:
     ESSENCE_FILE = "essence/edfimage.essence"
 elif args.rwedf:
-    ESSENCE_FILE = "essence/wedf.essence"
+    ESSENCE_FILE = "essence/rwedf.essence"
 
 if args.allmodels:
     all_models()
