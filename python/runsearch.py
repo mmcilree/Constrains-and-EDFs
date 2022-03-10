@@ -7,7 +7,7 @@ PARAM_PATH = "./gap/params"
 CONJURE_OUTPUT_PATH = "./conjure-output"
 # This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"
-TIMEOUT = "10m"
+TIMEOUT = "30"
 
 def lcm(a):
     lcm = a[0]
@@ -21,16 +21,16 @@ def all_models():
     for f in files:
         if f.endswith(".param"):
             system(
-                "timeout {0} conjure solve {1} {2}/{3} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-                    TIMEOUT, ESSENCE_FILE, PARAM_PATH, f
+                "conjure solve {0} {1}/{2} --limit-time {3} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
+                    ESSENCE_FILE, PARAM_PATH, f, TIMEOUT
                 )
             )
 
 
 def one_model(modelpath):
     system(
-        "timeout {0} conjure solve {1} {2} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-            TIMEOUT, ESSENCE_FILE, modelpath
+        "conjure solve {0} {1} --limit-time {2} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
+            ESSENCE_FILE, modelpath, TIMEOUT
         )
     )
 
