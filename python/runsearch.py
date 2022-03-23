@@ -65,22 +65,25 @@ def clean_output(path, rwedf):
                 }
                 output.append(record)
             else:
-                osedf = [[x for x in s.values()] for s in data["edf"].values()]
-                overgroup = [int(metadata[1]), int(metadata[2])]
-                subgroup = [int(metadata[3]), int(metadata[4])]
-                numsets = int(metadata[5])
-                setsize = int(metadata[6])
+                try:
+                    osedf = [[x for x in s.values()] for s in data["edf"].values()]
+                    overgroup = [int(metadata[1]), int(metadata[2])]
+                    subgroup = [int(metadata[3]), int(metadata[4])]
+                    numsets = int(metadata[5])
+                    setsize = int(metadata[6])
 
-                dups = int(metadata[7].split("-")[0])
-                record = {
-                    "osedf": osedf,
-                    "overgroup": overgroup,
-                    "subgroup": subgroup,
-                    "setsize": setsize,
-                    "numsets": numsets,
-                    "dups": dups,
-                }
-                output.append(record)
+                    dups = int(metadata[7].split("-")[0])
+                    record = {
+                        "osedf": osedf,
+                        "overgroup": overgroup,
+                        "subgroup": subgroup,
+                        "setsize": setsize,
+                        "numsets": numsets,
+                        "dups": dups,
+                    }
+                    output.append(record)
+                except ValueError:
+                    continue
 
     if len(outputfile.readlines()) == 0:
         outputfile.write("[")
@@ -107,9 +110,14 @@ parser.add_argument("--makeimage", action="store_true")
 parser.add_argument("--rwedf", action="store_true")
 parser.add_argument("--onemodel")
 parser.add_argument("--cleanoutput")
+parser.add_argument("--timeout")
+
 
 args = parser.parse_args()
 
+if args.timeout is not None:
+    TIMEOUT = str(args.timeout)
+    
 if args.fromimage:
     ESSENCE_FILE = "essence/edffromimage.essence"
 elif args.makeimage:

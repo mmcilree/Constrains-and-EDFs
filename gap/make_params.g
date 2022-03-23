@@ -155,7 +155,7 @@ getAllowedVals := function(group, image, oedf, hom)
 end;
 
 # Build params constrained to being and EDF that maps to a particular possible image under a homomorphism.
-buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF)
+buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF, tag)
 	local g, type, filename, numSets, setSize, allowedVals;
 	# hom := NaturalHomomorphismByNormalSubgroup(group, image);
 	numSets := Size(oedf);
@@ -165,8 +165,8 @@ buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF)
 	allowedVals := getAllowedVals(group, image, oedf, hom);
 	type := typeAsString(isSEDF);
 
-	filename := StringFormatted("params/{}_{}_{}_{}_{}_{}.param", type, g.size, g.id, numSets, setSize, lambda);
-	outputEssenceFile(filename, g.elements, false, g.tables, g.syms, setSize, numSets, lambda, isSEDF, allowedVals);
+	filename := StringFormatted("params/{}{}_{}_{}_{}_{}_{}.param", tag, type, g.size, g.id, numSets, setSize, lambda);
+	outputEssenceFile(filename, g.elements, false, g.tables, false, setSize, numSets, lambda, isSEDF, allowedVals);
 end;
 
 # Create all possible param files for a particular image group (under some homomorphism).

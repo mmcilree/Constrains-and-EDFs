@@ -1,0 +1,4 @@
+#!/bin/bash
+rm -rf conjure-output
+rm essence/*.solution
+rm gap/params/*

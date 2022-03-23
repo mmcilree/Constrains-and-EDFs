@@ -80,15 +80,18 @@ def get_obj(n, i, sets):
     return rwedf
 
 
-rwedffile = open("found_rwedfs.json", "r+")
+rwedffile = open("allrwedfs.json", "r+")
 
 rwedfjson = json.load(rwedffile)
 
 rwedfjson = sorted(rwedfjson, key=itemgetter("group", "numsets", "setsize"))
-
-print(R"\begin{array}{|c|c|c|c|c|c|c}")
+print(R"\begin{table}")
+print(R"\caption{RWEDF search results}")
+print(R"$$")
+print(R"\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}")
 print(R"\hline")
-for item in rwedfjson:
+print(R"\textbf{Group} & \textbf{RWEDF} & n & m & k_1 \dots k_m & \lambda & \textbf{Bmdl?} & \textbf{GSEDF?} & \textbf{PEDF?} \\ \hline")
+for i, item in enumerate(rwedfjson):
     n = item["group"][0]
     n_id = item["group"][1]
     raw_sets = item["rwedf"]
@@ -109,18 +112,49 @@ for item in rwedfjson:
     # print("bimodal? " + str(rwedf.is_bimodal()))
     # print("gsedf? " + str(rwedf.is_gsedf()))
     group = small_group_latex(n, n_id)
-    print("{0} & {1} & {2} & {3} & {4} & {5}& {6} & {7}\\\\ \hline"
+    sets_str_lst = [s + "," for s in rwedf.sets_str().split(",")]
+    sets_str_lst[-1] = sets_str_lst[-1][:-1]
+    sets_str_chunks = []
+    chunk = ""
+    for s in sets_str_lst:
+        
+        if len(chunk) < 50:
+            chunk = chunk + s
+        else:
+            sets_str_chunks.append(chunk)
+            chunk = s
+    sets_str_chunks.append(chunk)
+    
+
+    print("{0} & {1} & {2} & {3} & {4} & {5}& {6} & {7} & {8}\\\\"
             .format(
                 group, 
-                rwedf.sets_str(),
+                sets_str_chunks[0],
                 n,
                 rwedf.m,
                 ks,
-                l,
-                str(rwedf.is_bimodal()),
-                str(rwedf.is_pedf())
-
+                str(l).replace(R"\over", "/"),
+                R"\checkmark" if rwedf.is_bimodal() else "",
+                R"\checkmark" if rwedf.is_gsedf() else "",
+                R"\checkmark" if rwedf.is_pedf() else "",
                 ))
-print(R"\end{array}")
+                
+    for i in range (1, len(sets_str_chunks)):
+        print("& " + sets_str_chunks[i] + "&&&&&&& \\\\")
+    print(R"\hline")
 
+    if i % 44 == 43:
+        print(R"\end{array}")
+        print(R"$$")
+        print(R"\end{table}")
+        print(R"\begin{table}")
+        print(R"\caption{RWEDF search results (continued)}")
+        print(R"$$")
+        print(R"\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}")
+        print(R"\hline")
+        print(R"\textbf{Group} & \textbf{RWEDF} & n & m & k_1 \dots k_m & \lambda & \textbf{Bmdl?} & \textbf{GSEDF?} & \textbf{PEDF?} \\ \hline")
+
+print(R"\end{array}")
+print(R"$$")
+print(R"\end{table}")
     
