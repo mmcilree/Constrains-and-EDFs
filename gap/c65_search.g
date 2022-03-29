@@ -1,7 +1,7 @@
 Read("make_params.g");
 G := SmallGroup(65, 1);
 Ns := NormalSubgroups(G);
-N := Ns[3];
+N := Ns[2];
 hom := NaturalHomomorphismByNormalSubgroup(G, N);
 H := Image(hom, G);
 

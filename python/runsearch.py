@@ -8,6 +8,7 @@ CONJURE_OUTPUT_PATH = "./conjure-output"
 # This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"
 TIMEOUT = "30"
+NUM_SOLS = "1"
 
 def lcm(a):
     lcm = a[0]
@@ -18,19 +19,19 @@ def lcm(a):
 
 def all_models():
     files = listdir(PARAM_PATH)
-    for f in files:
+    for f in sorted(files):
         if f.endswith(".param"):
             system(
-                "conjure solve {0} {1}/{2} --limit-time {3} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-                    ESSENCE_FILE, PARAM_PATH, f, TIMEOUT
+                "conjure solve {0} {1}/{2} --limit-time {3} --output-format=json --number-of-solutions={3} --smart-filenames ".format(
+                    ESSENCE_FILE, PARAM_PATH, f, TIMEOUT, NUM_SOLS
                 )
             )
 
 
 def one_model(modelpath):
     system(
-        "conjure solve {0} {1} --limit-time {2} --output-format=json --number-of-solutions=1 --smart-filenames ".format(
-            ESSENCE_FILE, modelpath, TIMEOUT
+        "conjure solve {0} {1} --limit-time {2} --output-format=json --number-of-solutions={3} --smart-filenames ".format(
+            ESSENCE_FILE, modelpath, TIMEOUT, NUM_SOLS
         )
     )
 
@@ -111,13 +112,14 @@ parser.add_argument("--rwedf", action="store_true")
 parser.add_argument("--onemodel")
 parser.add_argument("--cleanoutput")
 parser.add_argument("--timeout")
-
+parser.add_argument("--numsols")
 
 args = parser.parse_args()
 
 if args.timeout is not None:
     TIMEOUT = str(args.timeout)
-    
+if args.numsols is not None:
+    NUM_SOLS = args.numsols
 if args.fromimage:
     ESSENCE_FILE = "essence/edffromimage.essence"
 elif args.makeimage:

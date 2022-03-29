@@ -66,7 +66,7 @@ $ Order the lists in 'edf', as they should be sorted
 $ forAll i : int(1..setnum). forAll j : int(1..setsize-1). edf[i,j] < edf[i,j+1],
 
 $ order the sets in the EDF by first value, to break symmetry on the outer list
-$ forAll i : int(1..setnum-1). edf[i,1] < edf[i+1,1],
+forAll i : int(1..setnum-1). edf[i,1] < edf[i+1,1],
 
 $ restrict to the allowed values
 forAll i : int(1..setnum). forAll j : int(1..setsize). allowedvalues[i, j, edf[i, j]] = true,

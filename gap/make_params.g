@@ -39,6 +39,7 @@ validLambdas := function(n, sedf)
 	return l;
 end;
 
+
 # Print an Essence .param file: this has been adapated to allow for EDF images, and EDFs based on image. 
 outputEssenceFile := function(filename, ordgrp, s, tables, symlist, setsize, numsets, lambda, sedf, allowedVals)
 	local output;
@@ -211,6 +212,7 @@ buildParamsForImageFromOEDF := function(overgroup, group, image, hom, oedf, lamb
 	filename := StringFormatted("params/{}_{}_{}_{}_{}_{}_{}_{}.param", type, og.size, og.id, g.size, g.id, numSets, setSize, lambda);
 	outputEssenceFile(filename, g.elements, og.size, g.tables, false, setSize, numSets, lambda, isSEDF, allowedVals);
 end;
+
 
 getLargestImage := function(group)
 	local Ns, smallestN, hom;

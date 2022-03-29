@@ -1,0 +1,7 @@
+Running with a time limit of 600 seconds.
+Using cached models.
+Savile Row: model.eprime ./gap/params/osedf_50_1_2_1_2_7_25.param
+Running minion for domain filtering.
+Running solver: minion
+Copying solution to: essence/edfimage-osedf_50_1_2_1_2_7_25-000001.solution
+Copying solution to: essence/edfimage-osedf_50_1_2_1_2_7_25-000002.solution
