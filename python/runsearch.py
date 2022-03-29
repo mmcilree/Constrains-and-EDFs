@@ -16,16 +16,25 @@ def lcm(a):
         lcm = lcm * a[i] // math.gcd(lcm, a[i])
     return lcm
 
+def got_solution(paramfile):
+    outputfiles = listdir(CONJURE_OUTPUT_PATH)
+    for s in outputfiles:
+        if paramfile[:-6] in s and s.endswith(".solution"):
+            return True
+    return False
 
-def all_models():
+def all_models(findone):
     files = listdir(PARAM_PATH)
     for f in sorted(files):
         if f.endswith(".param"):
             system(
-                "conjure solve {0} {1}/{2} --limit-time {3} --output-format=json --number-of-solutions={3} --smart-filenames ".format(
+                "conjure solve {0} {1}/{2} --limit-time {3} --output-format=json --number-of-solutions={4} --smart-filenames ".format(
                     ESSENCE_FILE, PARAM_PATH, f, TIMEOUT, NUM_SOLS
                 )
             )
+        if findone:
+            if got_solution(f):
+                break
 
 
 def one_model(modelpath):
@@ -109,6 +118,8 @@ parser.add_argument("--allmodels", action="store_true")
 parser.add_argument("--fromimage", action="store_true")
 parser.add_argument("--makeimage", action="store_true")
 parser.add_argument("--rwedf", action="store_true")
+parser.add_argument("--findone", action="store_true")
+
 parser.add_argument("--onemodel")
 parser.add_argument("--cleanoutput")
 parser.add_argument("--timeout")
@@ -119,7 +130,7 @@ args = parser.parse_args()
 if args.timeout is not None:
     TIMEOUT = str(args.timeout)
 if args.numsols is not None:
-    NUM_SOLS = args.numsols
+    NUM_SOLS = str(args.numsols)
 if args.fromimage:
     ESSENCE_FILE = "essence/edffromimage.essence"
 elif args.makeimage:
@@ -128,7 +139,7 @@ elif args.rwedf:
     ESSENCE_FILE = "essence/rwedf.essence"
 
 if args.allmodels:
-    all_models()
+    all_models(args.findone)
 elif args.onemodel is not None:
     one_model(args.onemodel)
 
