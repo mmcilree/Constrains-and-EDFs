@@ -1,10 +1,11 @@
+# This was used to generate Python code for checking the even/odd RWEDF family
+# (Construction 4.10)
 for n in [3..15] do
     for i in [1..NumberSmallGroups(2*n)] do
         G := SmallGroup(2*n, i);
         els := Elements(G);
         for el in els do
             if Order(el) = n then
-                # Print(el, " has order ", n, " in ", StructureDescription(G), "\n");
                 A_1 := List(Elements(Group(el)));
                 pos := Position(A_1, el^-1);
                 Remove(A_1, pos);

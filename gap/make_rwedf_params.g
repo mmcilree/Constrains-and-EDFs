@@ -1,5 +1,10 @@
 Read("utils.g");
 
+# This file contains functions for generating parameters for RWEDF direct search.
+
+# Matthew McIlree (2022)
+
+# Generate potential valid parameter sets based on Theorem 3.21
 validValues := function(n)
     local numsets, setsizes, lambda, l, v, T;
     v := [];
@@ -16,6 +21,9 @@ validValues := function(n)
     return v;
 end;
 
+# Print an Essence .param file: 
+# Adapted from code provided by Christopher Jefferson (2021)
+# This has been adapated to create RWEDF params.
 outputEssenceFile := function(filename, ordgrp, tables, setsizes, numsets, lambda, weights)
 	local output;
 	output := OutputTextFile(filename, false);
@@ -55,6 +63,7 @@ getGroupData := function(group)
 	return data;
 end;
 
+# Create .param files for all possible params for a particular group.
 buildAllRWEDFParams := function(G)
     local g, o, options, filename, lcm, lambda, weights, sizesstr;
     g := getGroupData(G);
@@ -62,6 +71,7 @@ buildAllRWEDFParams := function(G)
     options := validValues(g.size);
 
     for o in options do
+		# Ensure the weights are integers
         lcm := Lcm(Concatenation(o.setsizes, [g.size - 1]));
         lambda := o.l*lcm;
         weights := List(o.setsizes, k -> lcm/k);
@@ -74,6 +84,7 @@ buildAllRWEDFParams := function(G)
     od;
 end;
 
+# Iterate through all groups up to order n, building all possible param files for each.
 buildAllRWEDFParamsForAllGroups := function(n)
 	local i, j, G;
 	for i in [2..n] do

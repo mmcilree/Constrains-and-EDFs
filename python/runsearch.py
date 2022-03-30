@@ -5,7 +5,7 @@ from os import listdir, system, SEEK_END
 import time
 
 start_time = time.time()
-PARAM_PATH = "./gap/imgparams"
+PARAM_PATH = "./gap/params"
 CONJURE_OUTPUT_PATH = "./conjure-output"
 # This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"

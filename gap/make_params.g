@@ -1,9 +1,13 @@
 #!/usr/bin/gap -q
-max := 100;
-G := "";
-
 Read("utils.g");
 
+# This file contains functions for generating parameters for either a direct EDF/SEDF search
+# or an optimised search based on first finding potential homomorphic images of EDFs/SEDFs, termed
+# OEDFs or OSEDFs. (oedf used throughout here for brevity).
+
+# Matthew McIlree (2022)
+
+# Convert boolean isSEDF to string "sedf" or "edf"
 typeAsString := function(isSEDF)
 	local type;
 	if isSEDF then
@@ -15,7 +19,8 @@ typeAsString := function(isSEDF)
 	return type;
 end;
 
-# Check if there is any valid Lambda value
+# Return all of the valid lambda values
+# Adapted from code provided by Christopher Jefferson (2021)
 validLambdas := function(n, sedf)
 	local numsets, setsize, lambda, l;
 	l := [];
@@ -40,17 +45,21 @@ validLambdas := function(n, sedf)
 end;
 
 
-# Print an Essence .param file: this has been adapated to allow for EDF images, and EDFs based on image. 
+# Print an Essence .param file: 
+# Adapted from code provided by Christopher Jefferson (2021)
+# This has been adapated to allow for EDF images (OMSEDFs), and EDFs based on those images. 
 outputEssenceFile := function(filename, ordgrp, s, tables, symlist, setsize, numsets, lambda, sedf, allowedVals)
 	local output;
 	output := OutputTextFile(filename, false );
 	SetPrintFormattingStatus(output, false);
 	PrintToFormatted(output, "letting n be {}\n", Length(ordgrp));
 
+	# For an p
 	if s <> false then
 		PrintToFormatted(output, "letting s be {}\n", s);
 	fi;
 
+	# If restricting values based on an imagel, add an allowedvalues parameter
 	if allowedVals <> false then
 		PrintToFormatted(output, "letting allowedvalues be {}\n", allowedVals);
 	fi;
@@ -66,7 +75,6 @@ outputEssenceFile := function(filename, ordgrp, s, tables, symlist, setsize, num
 	
 
 	if symlist <> false then
-		# The whole 'List(l, x -> x)' gets rid of any range notation, which savilerow doesn't understand
 		PrintToFormatted(output, "letting symsize be {}\n", Size(symlist));
 		PrintToFormatted(output, "letting syms be {}\n", List(symlist, l -> List(l, x -> x)));
 	fi;
@@ -155,7 +163,7 @@ getAllowedVals := function(group, image, oedf, hom)
 	return allowedVals;
 end;
 
-# Build params constrained to being and EDF that maps to a particular possible image under a homomorphism.
+# Build .params constrained to being and EDF that maps to a particular possible image under a homomorphism.
 buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF, tag)
 	local g, type, filename, numSets, setSize, allowedVals;
 	# hom := NaturalHomomorphismByNormalSubgroup(group, image);
@@ -166,7 +174,7 @@ buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF, tag)
 	allowedVals := getAllowedVals(group, image, oedf, hom);
 	type := typeAsString(isSEDF);
 
-	filename := StringFormatted("imgparams/{}{}_{}_{}_{}_{}_{}.param", type, g.size, g.id, numSets, setSize, lambda, tag);
+	filename := StringFormatted("params/{}{}_{}_{}_{}_{}_{}.param", type, g.size, g.id, numSets, setSize, lambda, tag);
 	outputEssenceFile(filename, g.elements, false, g.tables, false, setSize, numSets, lambda, isSEDF, allowedVals);
 end;
 
@@ -186,6 +194,7 @@ buildAllParamsForImage := function(group, image, isSEDF)
 	od;
 end;
 
+# Create .param file for a potential image, with a particular original group in mind.
 buildParamsForImageWithValues := function(group, image, numsets, setsize, lambda, isSEDF)
 	local g, o, i, type, filename, options;
 	g := getGroupData(group);
@@ -198,9 +207,10 @@ buildParamsForImageWithValues := function(group, image, numsets, setsize, lambda
 
 end;
 
+# Create .param files for a potential image, restricted in turn by another image
+# (Unused in the end in the project but demonstrates the concept).
 buildParamsForImageFromOEDF := function(overgroup, group, image, hom, oedf, lambda, isSEDF)
 	local g, og, type, filename, numSets, setSize, allowedVals;
-	# hom := NaturalHomomorphismByNormalSubgroup(group, image);
 	numSets := Size(oedf);
 	setSize := Size(oedf[1]);
 
@@ -211,48 +221,4 @@ buildParamsForImageFromOEDF := function(overgroup, group, image, hom, oedf, lamb
 
 	filename := StringFormatted("params/{}_{}_{}_{}_{}_{}_{}_{}.param", type, og.size, og.id, g.size, g.id, numSets, setSize, lambda);
 	outputEssenceFile(filename, g.elements, og.size, g.tables, false, setSize, numSets, lambda, isSEDF, allowedVals);
-end;
-
-
-getLargestImage := function(group)
-	local Ns, smallestN, hom;
-	Ns := ChiefSeries(group);
-	smallestN := Ns[Size(Ns) - 1];
-	hom := NaturalHomomorphismByNormalSubgroup(group, smallestN);
-	return Image(hom);
-end;
-
-getNthImage := function(group, n)
-	local H, i;
-	H := getLargestImage(group);
-	for i in [1..n-1] do
-		H := getLargestImage(H);
-	od;
-
-	return H;
-end;
-
-buildAllParamsForLargestImage := function(group, isSEDF)
-	local image;
-	image := getLargestImage(group);
-	buildAllParamsForImage(group, image, isSEDF);
-end;
-
-buildParamsForLargestImageWithValues := function(group, numsets, setsize, lambda, isSEDF)
-	local image;
-	image := getLargestImage(group);
-	buildParamsForImageWithValues(group, image, numsets, setsize, lambda, isSEDF);
-end;
-
-bapfcs := function(group, subgroupno)
-	local Ns, N, hom, H;
-	Ns := ChiefSeries(group);
-	N := Ns[subgroupno];
-	hom := NaturalHomomorphismByNormalSubgroup(group, N);
-	H := Image(hom, group);
-	buildAllParamsForImage(group, H, true);
-end;
-
-bapfi := function(n, i1, i, i2)
-	buildAllParamsForImage(SmallGroup(n, i1), SmallGroup(i, i2), true);
 end;

@@ -1,8 +1,7 @@
 LoadPackage("json");
 LoadPackage("images");
 
-# These utility functions were provided by Dr Chris Jefferson
-
+# These utility functions were provided by Christopher Jefferson 2021
 
 # Generate the elements of 'g' with a "nice"
 # ordering:

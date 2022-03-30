@@ -17,7 +17,7 @@ c21ImParams:= function()
 end;
 
 c21FromImParams := function(im)
-    buildParamsFromOEDF(G, H, hom, im, 6, true, String(count));
+    buildParamsFromOEDF(G, H, hom, im, 5, true, String(count));
     count := count + 1;
 end;
 
