@@ -166,7 +166,7 @@ buildParamsFromOEDF := function(group, image, hom, oedf, lambda, isSEDF, tag)
 	allowedVals := getAllowedVals(group, image, oedf, hom);
 	type := typeAsString(isSEDF);
 
-	filename := StringFormatted("params/{}{}_{}_{}_{}_{}_{}.param", tag, type, g.size, g.id, numSets, setSize, lambda);
+	filename := StringFormatted("imgparams/{}{}_{}_{}_{}_{}_{}.param", type, g.size, g.id, numSets, setSize, lambda, tag);
 	outputEssenceFile(filename, g.elements, false, g.tables, false, setSize, numSets, lambda, isSEDF, allowedVals);
 end;
 

@@ -2,8 +2,10 @@ import argparse
 import json
 import math
 from os import listdir, system, SEEK_END
+import time
 
-PARAM_PATH = "./gap/params"
+start_time = time.time()
+PARAM_PATH = "./gap/imgparams"
 CONJURE_OUTPUT_PATH = "./conjure-output"
 # This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"
@@ -32,6 +34,8 @@ def all_models(findone):
                     ESSENCE_FILE, PARAM_PATH, f, TIMEOUT, NUM_SOLS
                 )
             )
+        current_time = time.time()
+        print(current_time - start_time)
         if findone:
             if got_solution(f):
                 break

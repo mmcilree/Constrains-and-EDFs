@@ -24,11 +24,27 @@ for f in sorted(files):
     print(R"&" + aftercolon(lines[0][:-1]), end="")
     print(R"&" + aftercolon(lines[8][:-1]), end="")
 
+    fromimagepath = "model-sedf{0}_{1}_{2}_{3}".format(attr[1], attr[2], attr[5], attr[6])
+
+    fromimagefiles = [f3 for f3 in allfiles if f3.startswith(fromimagepath) and f3.endswith(".eprime-info")]
+
+    fromimagetime = []
+    for f3 in sorted(fromimagefiles):
+        file3 = open("conjure-output/" + f3, "r+")
+        file3lines = file3.readlines()
+        time = float(aftercolon(file3lines[0]))
+        fromimagetime.append(time)
+        if aftercolon(file3lines[8])[:-1] == "1":
+            break
+
+        
+    print("&" + str(fromimagetime), end="")
+
     directsedfpath = "model-sedf_{0}_{1}_{2}_{3}".format(attr[1], attr[2], attr[5], attr[6])
     for f2 in allfiles:
         if f2.startswith(directsedfpath) and f2.endswith(".eprime-info"):
             file2 = open("conjure-output/" + f2, "r+")
             file2lines = file2.readlines() 
-            print("&" + aftercolon(file2lines[0]), end="")
+            print("&" + aftercolon(file2lines[0][:-1]), end="")
     print(R"\\")
 print(R"\end{tabular}")
