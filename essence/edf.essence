@@ -1,4 +1,5 @@
-$ Created by Christopher Jefferson 
+$ Created by Christopher Jefferson 2021
+$ Constraint model for an EDF/SEDF
 language ESSENCE' 1.0
 
 $ Size of group
@@ -78,7 +79,6 @@ forAll p1 : int(1..setnum). forAll q1 : int(1..setnum).
         table([edf[p1,p2],edf[q1,q2],edfmap[p1,p2,q1,q2]], mulinvtuples)
     )
 ),
-
 
 $ Now actually require we have an EDF!
 makeSEDF ->

@@ -1,3 +1,5 @@
+$ Matthew McIlree 2022 (adapated from edf.essence)
+$ Search for EDF or SEDF with values restricted
 language ESSENCE' 1.0
 
 $ Size of group
@@ -12,6 +14,7 @@ given setnum: int(1..n)
 $ Occurrences of each value
 given dups : int(1..n)
 
+$ Restrictions of the values
 given allowedvalues: matrix indexed by [int(1..setnum), int(1..setsize), int(1..n)] of bool
 
 given makeEDF: bool
@@ -37,6 +40,7 @@ $ given syms: matrix indexed by [int(1..symsize),int(1..n)] of int(1..n)
 
 $ The EDF, expressed as a list of lists
 find edf: matrix indexed by [int(1..setnum), int(1..setsize)] of int(1..n)
+
 $ A second representation of the EDF, where each set is represented as
 $ a boolean array (so [2,3,6] is represented as [F,T,T,F,F,T] for example)
 find boolrep: matrix indexed by [int(1..setnum), int(1..n)] of bool

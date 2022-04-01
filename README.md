@@ -14,7 +14,8 @@ pip3 install -e python/pythonedfs
 ```
 
 ## Usage
-The focus of the project was more on obtaining specific results than engineering a generalised searching framework. The specific actions taken to reproduce the results in the report are therefore listed here:
+The focus of the project was more on obtaining specific results than engineering a generalised searching framework. 
+An example of specific actions taken for search for in groups up to size 10 is given here.
 
 **Search for all RWEDFs in groups up to size 10**
 1. Ensure the ``gap/params`` is directory clear and there are no pre-existing conjure output files.

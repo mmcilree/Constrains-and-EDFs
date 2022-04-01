@@ -1,5 +1,7 @@
 Read("make_params.g");
 
+# Test some of the GAP functions
+
 test_output := function()
     local output;
 	output := OutputTextFile("../file.txt", false );

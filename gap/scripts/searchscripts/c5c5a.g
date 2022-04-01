@@ -1,3 +1,4 @@
+# See README
 Read("make_params.g");
 LoadPackage("json");
 

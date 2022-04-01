@@ -3,6 +3,8 @@ from operator import itemgetter
 from data.group_tables_to_ten import group_tables
 from setfamily import *
 
+# The main script for producing the RWEDF table in Appendix A of the report.
+∑
 # Generated using gap: cyclic_product_reps.g
 cyclicProductReps = {
     (4, 2): [ [ 0, 0 ], [ 1, 0 ], [ 0, 1 ], [ 1, 1 ] ],

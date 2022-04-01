@@ -1,3 +1,4 @@
+# See README
 Read("make_params.g");
 G := SmallGroup(65, 1);
 Ns := NormalSubgroups(G);

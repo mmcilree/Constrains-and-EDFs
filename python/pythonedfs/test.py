@@ -1,5 +1,8 @@
 from setfamily import *
-from data.testedfs import *
+from testedfs import *
+
+# Test the setfamily implementation against known results from the literature.
+# See testedfs.py for the specific examples and what properties they ought to satisfy.
 
 t1 = CyclicSetFamily(p_2_1, 19)
 print(str(p_2_1) + ":")

@@ -84,7 +84,7 @@ buildAllRWEDFParams := function(G)
     od;
 end;
 
-# Iterate through all groups up to order n, building all possible param files for each.
+# Iterate through all groups up to order n, building all possible param files for each.	
 buildAllRWEDFParamsForAllGroups := function(n)
 	local i, j, G;
 	for i in [2..n] do

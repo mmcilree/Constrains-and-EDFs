@@ -3,7 +3,13 @@ from fractions import Fraction
 import itertools
 from collections import defaultdict
 
+"""
+    SetFamily: this is the main class for representing a finite collection 
+    of sets of group elements, with methods for checking whether it satisfies
+    the property of being an EDF, RWEDF, SEDF, etc.
 
+    Matthew McIlree 2022
+"""
 class SetFamily:
     def __init__(self, sets, group_table, inverses=None, elstr=None):
         self.n = len(group_table)
@@ -12,25 +18,6 @@ class SetFamily:
         self.group_table = group_table
         self.inverses = inverses or self.get_inverses()
         self.elstr = elstr
-
-    def sets_str(self):
-        """Return the sets in the family in latex format."""
-        latex_str = ""
-        for j, s in enumerate(self.sets):
-            latex_str += "\{"
-            for i, x in enumerate(s):
-                latex_str += self.el_as_str(x)
-                if i != (len(s) - 1):
-                    latex_str += ", "
-            latex_str += "\}" + ("" if j == self.m - 1 else ", ")
-        return latex_str
-
-    def op_as_str(self):
-        """
-            Return the difference operation of the group (multiply by inverse 
-            by default) as a string.
-        """
-        return R"\times (\;\cdot\;)^{-1}"
 
     def get_inverses(self):
         """Create a table of inverses for each element"""
@@ -58,7 +45,7 @@ class SetFamily:
         )
 
     def external_differences(self, i, j):
-        """Get all the external diferences between the ith and jth sets."""
+        """Get all the external diferences bettween the ith and jth sets."""
         ed_dict = {}
         for el1 in self.sets[i]:
             for el2 in self.sets[j]:
@@ -119,7 +106,6 @@ class SetFamily:
         counts = [
             sum([v == val for v in all_ext_diffs.values()]) for val in range(1, self.n)
         ]
-        print(counts)
         return all_equal(counts)
 
     def is_osedf(self):
@@ -142,7 +128,6 @@ class SetFamily:
                     count_sums = [
                         count_sums[i] + counts[i] for i in range(0, self.n - 1)
                     ]
-            print(count_sums)
             all_counts.append(count_sums)
 
         return all_equal(all_counts)
@@ -158,6 +143,25 @@ class SetFamily:
                 if count_sums[el - 1] != 0 and count_sums[el - 1] != len(self.sets[i]):
                     return False
         return True
+
+    def sets_str(self):
+        """Return the sets in the family in latex format."""
+        latex_str = ""
+        for j, s in enumerate(self.sets):
+            latex_str += "\{"
+            for i, x in enumerate(s):
+                latex_str += self.el_as_str(x)
+                if i != (len(s) - 1):
+                    latex_str += ", "
+            latex_str += "\}" + ("" if j == self.m - 1 else ", ")
+        return latex_str
+
+    def op_as_str(self):
+        """
+            Return the difference operation of the group (multiply by inverse 
+            by default) as a string.
+        """
+        return R"\times (\;\cdot\;)^{-1}"
 
     def el_as_str(self, el):
         """String representation of element: may be overridden in subclasses."""
@@ -379,6 +383,7 @@ class CyclicProductSetFamily(SetFamily):
 
 
 if __name__ == "__main__":
+    # Basic usage demonstration:
     mod_5_mult = [
         [0, 1, 2, 3, 4],
         [1, 2, 3, 4, 0],

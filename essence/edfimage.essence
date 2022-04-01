@@ -1,9 +1,10 @@
+$ Constraint model for an OMSEDF/OMEDF (potential EDF/SEDF image).
 language ESSENCE' 1.0
 
 $ Size of group
 given n: int
 
-$ Size of the group this group is a subgroup of
+$ Size of the group this group is an image group for
 given s : int
 
 $ Size of each set

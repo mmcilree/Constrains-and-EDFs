@@ -4,10 +4,16 @@ import math
 from os import listdir, system, SEEK_END
 import time
 
+# This is the main script for automatically running conjure on .param files in the
+# gap/params folder. It can also be used to collate conjure output to a JSON files.
+
+# Matthew McIlree 2022ß∑∑
+
 start_time = time.time()
+
+# Default options
 PARAM_PATH = "./gap/params"
 CONJURE_OUTPUT_PATH = "./conjure-output"
-# This is modified if certain arguments are passed.
 ESSENCE_FILE = "./essence/edf.essence"
 TIMEOUT = "30"
 NUM_SOLS = "1"
@@ -19,6 +25,7 @@ def lcm(a):
     return lcm
 
 def got_solution(paramfile):
+    # Check if one solution has been found yet.
     outputfiles = listdir(CONJURE_OUTPUT_PATH)
     for s in outputfiles:
         if paramfile[:-6] in s and s.endswith(".solution"):
@@ -26,6 +33,7 @@ def got_solution(paramfile):
     return False
 
 def all_models(findone):
+    # Run on all parameter sets in the gap/params folder
     files = listdir(PARAM_PATH)
     for f in sorted(files):
         if f.endswith(".param"):
@@ -36,12 +44,15 @@ def all_models(findone):
             )
         current_time = time.time()
         print(current_time - start_time)
+
+        # If findone is true, stop after we find one solutionß
         if findone:
             if got_solution(f):
                 break
 
 
 def one_model(modelpath):
+    # Run on just a single specified .param file.
     system(
         "conjure solve {0} {1} --limit-time {2} --output-format=json --number-of-solutions={3} --smart-filenames ".format(
             ESSENCE_FILE, modelpath, TIMEOUT, NUM_SOLS
@@ -50,10 +61,9 @@ def one_model(modelpath):
 
 
 def clean_output(path, rwedf):
-    """
-    Read all of the conjure json output files, extract the important bits
-    and store in a single file
-    """
+    # Read all of the conjure json output files, extract the important bits
+    # and store in a single file
+    
     files = listdir(CONJURE_OUTPUT_PATH)
     outputfile = open(path, "w+")
     output = []
@@ -113,7 +123,7 @@ def clean_output(path, rwedf):
         )
     outputfile.write("]")
 
-
+# Parse command line arguments
 parser = argparse.ArgumentParser(
     description="Automate the running of conjure on lots of models"
 )
@@ -123,7 +133,6 @@ parser.add_argument("--fromimage", action="store_true")
 parser.add_argument("--makeimage", action="store_true")
 parser.add_argument("--rwedf", action="store_true")
 parser.add_argument("--findone", action="store_true")
-
 parser.add_argument("--onemodel")
 parser.add_argument("--cleanoutput")
 parser.add_argument("--timeout")
@@ -131,6 +140,7 @@ parser.add_argument("--numsols")
 
 args = parser.parse_args()
 
+# Set options accordinglyß
 if args.timeout is not None:
     TIMEOUT = str(args.timeout)
 if args.numsols is not None:
@@ -142,6 +152,7 @@ elif args.makeimage:
 elif args.rwedf:
     ESSENCE_FILE = "essence/rwedf.essence"
 
+# Perform specified taskß
 if args.allmodels:
     all_models(args.findone)
 elif args.onemodel is not None:
